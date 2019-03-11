@@ -11,17 +11,18 @@ const TextFieldGroup = ({
   checkUserExists
 }) => {
   return (
-    <div className={classnames("form-group", { "has-error": error })}>
-      <label className="control-label" style={{ paddingRight: "50px" }}>
-        {label}
-      </label>
+    <div className={classnames("form-group  mb-5", { "has-error": error })}>
+      <p>
+        <label>{label}</label>
+      </p>
+
       <input
         onChange={onChange}
         onBlur={checkUserExists}
         value={value}
         type={type}
         name={field}
-        className="form-control"
+        className="form-control form-control-lg"
       />
       {error && (
         <span className="help-block" style={{ color: "red" }}>

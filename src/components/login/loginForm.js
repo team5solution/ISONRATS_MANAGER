@@ -62,8 +62,6 @@ class LoginForm extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <h1>Login</h1>
-
         {errors.form && <div className="alert alert-danger">{errors.form}</div>}
         {errors.login && (
           <div className="alert alert-danger">{errors.login}</div>
@@ -91,8 +89,8 @@ class LoginForm extends Component {
         />
         <br />
         <div className="form-group">
-          <button className="btn btn-primary btn-lg" disabled={isLoading}>
-            Login
+          <button className="btn btn-primary" disabled={isLoading}>
+            <h6>Log in</h6>
           </button>
         </div>
       </form>
