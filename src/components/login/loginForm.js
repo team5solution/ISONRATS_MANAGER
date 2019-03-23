@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import TextFieldGroup from "../../common/TextField";
-import validateInput from "../../common/validators/login";
+import { TextFieldGroup, loginValidation } from "../../common";
 import { connect } from "react-redux";
 import { login } from "../../actions/auth";
 
@@ -17,19 +16,17 @@ class LoginForm extends Component {
   }
 
   passValid = () => {
-    const { errors, isValid } = validateInput(this.state);
-
+    const { errors, isValid } = loginValidation(this.state);
     if (!isValid) {
       this.setState({ errors });
     }
-
     return isValid;
   };
 
   onSubmit = e => {
     e.preventDefault();
     const isValid = this.passValid();
-    console.log("isValid: ", isValid);
+    //console.log("isValid: ", isValid);
     if (isValid) {
       this.setState({ errors: {}, isLoading: true });
       this.props.login(this.state).then(
