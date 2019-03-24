@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
-import PropTypes from "prop-types";
-import TextFieldGroup from "../../common/TextField";
-import validateInput from "../../common/validators/product";
+import {
+  TextFieldGroup,
+  TextAreaGroup,
+  productValidation,
+  Modal
+} from "../../common";
+
 import { ROOT } from "../../actions/types";
 
 class ProductForm extends Component {
@@ -15,14 +19,17 @@ class ProductForm extends Component {
       images: [],
       errors: {},
       isLoading: false,
-      imageUploading: false
+      imageUploading: false,
+      showModal: false,
+      modalType: "",
+      modalMessage: ""
     };
     this.url = `${ROOT}product`;
-    console.log(this.url);
+    //console.log(this.url);
   }
 
   isValid = () => {
-    const { errors, isValid } = validateInput(this.state);
+    const { errors, isValid } = productValidation(this.state);
 
     if (!isValid) {
       this.setState({ errors });
@@ -33,7 +40,7 @@ class ProductForm extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
+    //console.log(this.state);
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: true });
       let bodyFormData = new FormData();
@@ -48,7 +55,11 @@ class ProductForm extends Component {
         .then(response => {
           console.log(response);
           this.setState({
-            isLoading: false
+            isLoading: false,
+            name: "",
+            type: "",
+            description: "",
+            images: []
           });
         })
         .catch(error =>
@@ -65,30 +76,50 @@ class ProductForm extends Component {
   };
   imgOnChange = e => {
     const files = Array.from(e.target.files);
+    const availableFiles = files.filter(file => file.size <= 1024 * 1024 * 5);
+    const tooBigFiles = files.filter(file => file.size > 1024 * 1024 * 5);
+    console.log("too big files: ", tooBigFiles);
+    const showModal = tooBigFiles.length > 0 ? true : false;
     this.setState({
-      images: files
+      images: availableFiles,
+      showModal: showModal,
+      modalMessage: "File size could not greater than 5 MB",
+      modalType: "error"
     });
   };
-
+  closeModal = () => {
+    this.setState({
+      showModal: false,
+      modalMessage: "",
+      modalType: ""
+    });
+  };
   render() {
+    //console.log(this.state);
     const {
       name,
-      type,
       description,
       images,
       errors,
       isLoading,
       imageUploading
     } = this.state;
-
+    //console.log("images: ", images);
+    const upLoadTxt =
+      images.length > 0 ? `Total images: ${images.length}` : "Add images";
+    const modal = this.state.showModal ? (
+      <Modal
+        type={this.state.modalType}
+        content={this.state.modalMessage}
+        closeModal={this.closeModal}
+      />
+    ) : null;
+    //console.log(modal);
     return (
-      <form onSubmit={this.onSubmit}>
-        <div className="text-center">
-          <h4>Add Product</h4>
-        </div>
-
+      <div className="card card-body text-dark">
+        <h5 className="text-center">Add Product</h5>
         {errors.form && <div className="alert alert-danger">{errors.form}</div>}
-
+        <br />
         <TextFieldGroup
           field="name"
           label="Product Name"
@@ -98,44 +129,39 @@ class ProductForm extends Component {
             this.onChange(e);
           }}
         />
-        <br />
-        <TextFieldGroup
-          field="type"
-          label="Product Type"
-          value={type}
-          error={errors.type}
-          onChange={e => {
-            this.onChange(e);
-          }}
+
+        <TextAreaGroup
+          field="description"
+          label="Product Description"
+          value={description}
+          error={errors.description}
+          onChange={e => this.onChange(e)}
         />
-        <br />
-        <div className="form-group h-100 justify-content-center align-items-center">
-          <label className="control-label" style={{ paddingRight: "50px" }}>
-            Product Description
-          </label>
-          <div>
-            <textarea
-              name="description"
-              rows="5"
-              style={{ minWidth: "100%", resize: "none" }}
-              onChange={e => this.onChange(e)}
+
+        <div className="form-group">
+          <label className="btn btn-info btn-file" style={{ fontSize: "22px" }}>
+            {upLoadTxt}
+            <input
+              type="file"
+              id="imgs"
+              onChange={this.imgOnChange}
+              accept="image/*"
+              multiple
             />
-          </div>
-        </div>
-        <br />
-        <div className="form-group">
-          <label className="control-label" style={{ paddingRight: "50px" }}>
-            Product Images
           </label>
-          <input type="file" id="imgs" onChange={this.imgOnChange} multiple />
         </div>
-        <br />
+
         <div className="form-group">
-          <button className="btn btn-primary btn-lg" disabled={isLoading}>
-            Save Product
+          <button
+            className="btn btn-success"
+            disabled={isLoading}
+            onClick={this.onSubmit}
+          >
+            <h6> Upload Product</h6>
           </button>
         </div>
-      </form>
+        {modal}
+      </div>
     );
   }
 }

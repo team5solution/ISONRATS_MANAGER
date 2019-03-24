@@ -1,7 +1,7 @@
 import validator from "validator";
 import isEmpty from "../isEmpty";
 
-export default function validateInput(data) {
+export default function loginValidataion(data) {
   let errors = {};
 
   if (validator.isEmpty(data.email) || !validator.isEmail(data.email)) {

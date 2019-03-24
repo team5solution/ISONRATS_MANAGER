@@ -1,31 +1,86 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-//import socketIOClient from "socket.io-client";
-import Products from "./products/index";
-//import SERVER_URL from "../settings.js";
-//import { addNewProduct } from "../actions/products";
-//const m = ({ products }) => ({ products });
-
-/*@connect(
-  m,
-  { addNewProduct }
-)*/
+import Products from "./products";
+import Messages from "./messages";
+import Reviews from "./reviews";
+import NavBar from "./navbar";
+import Footer from "./footer";
+import { socket } from "../../settings";
 class Home extends Component {
   constructor(props) {
     super(props);
-    console.log("props: ", props);
   }
   componentDidMount() {
-    /* const that = this;
-    const socket = socketIOClient("http://localhost:3000");
-
-    socket.on("new product", data =>
-      that.props.addNewProduct(data.createdProduct)
-    );*/
+    const jwtToken = localStorage.getItem("jwtToken");
+    // if (jwtToken !== null) {
+    socket.emit("admin init", jwtToken, result => {
+      console.log(result);
+    });
+    //  }
+  }
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.auth.isAuthenticated) {
+      socket.emit("logout");
+      this.props.history.push("/login");
+    }
   }
   render() {
-    return <Products />;
+    console.log("props: ", this.props);
+    return (
+      <div>
+        <NavBar />
+        <div className="container">
+          <h1>Admin</h1>
+
+          <hr />
+
+          <a
+            className="btn btn-primary btn-lg btn-block"
+            data-toggle="collapse"
+            href="#products"
+            role="button"
+            aria-expanded="false"
+            aria-controls="products"
+          >
+            <h2>Products</h2>
+          </a>
+          <Products />
+          <br />
+          <a
+            className="btn btn-primary btn-lg btn-block"
+            data-toggle="collapse"
+            href="#messages"
+            role="button"
+            aria-expanded="false"
+            aria-controls="messages"
+          >
+            <h2>Inquiries</h2>
+          </a>
+          <Messages />
+          <br />
+          <a
+            className="btn btn-primary btn-lg btn-block"
+            data-toggle="collapse"
+            href="#reviews"
+            role="button"
+            aria-expanded="false"
+            aria-controls="reviews"
+          >
+            <h2>Reviews</h2>
+          </a>
+          <Reviews />
+          <br />
+          <br />
+          <Footer />
+        </div>
+      </div>
+    );
   }
 }
+function mapStateToProps(state) {
+  return {
+    auth: state.auth
+  };
+}
 
-export default Home;
+export default connect(mapStateToProps)(Home);

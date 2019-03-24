@@ -1,16 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { fetchProducts } from "../../actions/products";
-import { Loading } from "../common";
+import { Loading } from "../../common";
 import ProductsItem from "./productItems";
 import ProductForm from "./productForm.js";
-const m = ({ products }) => ({ products });
 
-@connect(
-  m,
-  { fetchProducts }
-)
-export default class Products extends Component {
+class Products extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      addEvent: false,
+      editId: 0,
+      deleteItem: null,
+      action: ""
+    };
+  }
   componentDidMount() {
     this.props.fetchProducts();
   }
@@ -25,10 +30,10 @@ export default class Products extends Component {
     }
 
     return (
-      <div className="container">
-        <div className="products-container">
+      <div className="collapse" id="products">
+        <div id="productlist">
           {productItems.map((item, i) => (
-            <ProductsItem key={i} {...item} />
+            <ProductsItem key={i} item={item} />
           ))}
         </div>
         <ProductForm />
@@ -36,3 +41,17 @@ export default class Products extends Component {
     );
   }
 }
+function mapStateToProps(state) {
+  return {
+    products: state.products
+  };
+}
+
+Products.propTypes = {
+  fetchProducts: PropTypes.func.isRequired
+};
+
+export default connect(
+  mapStateToProps,
+  { fetchProducts }
+)(Products);
