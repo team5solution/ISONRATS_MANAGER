@@ -1,37 +1,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
-//import io from "socket.io-client";
-import Products from "./products/index";
+import Products from "./products";
+import Messages from "./messages";
+import Reviews from "./reviews";
 import NavBar from "./navbar";
-import isEmpty from "../common/isEmpty";
-//import SERVER_URL from "../settings.js";
-import { addNewProduct } from "../actions/products";
-//const m = ({ products }) => ({ products });
-
-/*@connect(
-  m,
-  { addNewProduct }
-)*/
-//const socket = io("http://localhost:3000");
+import Footer from "./footer";
+import { socket } from "../../settings";
 class Home extends Component {
   constructor(props) {
     super(props);
   }
   componentDidMount() {
     const jwtToken = localStorage.getItem("jwtToken");
-
-    const that = this;
-
-    if (jwtToken !== null) {
-      socket.emit("admin init", jwtToken, result => {
-        console.log(result);
-      });
-    }
-
-    /* socket.on("new product", data =>
-      that.props.addNewProduct(data.createdProduct)
-    );*/
+    // if (jwtToken !== null) {
+    socket.emit("admin init", jwtToken, result => {
+      console.log(result);
+    });
+    //  }
   }
   componentWillReceiveProps(nextProps) {
     if (!nextProps.auth.isAuthenticated) {
@@ -60,6 +45,33 @@ class Home extends Component {
             <h2>Products</h2>
           </a>
           <Products />
+          <br />
+          <a
+            className="btn btn-primary btn-lg btn-block"
+            data-toggle="collapse"
+            href="#messages"
+            role="button"
+            aria-expanded="false"
+            aria-controls="messages"
+          >
+            <h2>Inquiries</h2>
+          </a>
+          <Messages />
+          <br />
+          <a
+            className="btn btn-primary btn-lg btn-block"
+            data-toggle="collapse"
+            href="#reviews"
+            role="button"
+            aria-expanded="false"
+            aria-controls="reviews"
+          >
+            <h2>Reviews</h2>
+          </a>
+          <Reviews />
+          <br />
+          <br />
+          <Footer />
         </div>
       </div>
     );
@@ -70,11 +82,5 @@ function mapStateToProps(state) {
     auth: state.auth
   };
 }
-Home.propTypes = {
-  addNewProduct: PropTypes.func.isRequired
-};
 
-export default connect(
-  mapStateToProps,
-  { addNewProduct }
-)(Home);
+export default connect(mapStateToProps)(Home);

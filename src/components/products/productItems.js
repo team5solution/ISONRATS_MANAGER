@@ -64,14 +64,18 @@ class ProductsItem extends Component {
                   style={{ fontSize: "16px", color: "#317cf6" }}
                   onClick={this.enableDelete}
                 >
-                  Delete
+                  <h6>
+                    <i className="far fa-trash-alt" />
+                  </h6>
                 </button>
                 <button
                   className="btn  btn-link float-right"
                   style={{ fontSize: "16px", color: "#317cf6" }}
                   onClick={this.toggleEdit}
                 >
-                  Edit
+                  <h6>
+                    <i className="far fa-edit" />
+                  </h6>
                 </button>
               </div>
               <p>
@@ -97,14 +101,19 @@ class ProductsItem extends Component {
                 style={{ fontSize: "16px", color: "#317cf6" }}
                 onClick={this.enableDelete}
               >
-                Delete
+                <h6>
+                  {" "}
+                  <i className="far fa-trash-alt" />
+                </h6>
               </button>
               <button
                 className="btn  btn-link float-right"
                 style={{ fontSize: "16px", color: "#317cf6" }}
                 onClick={this.toggleEdit}
               >
-                Close
+                <h6>
+                  <i className="fas fa-times" />
+                </h6>
               </button>
             </div>
             <ProductUpdate
