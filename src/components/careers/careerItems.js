@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { SERVER_URL } from "../../../settings";
 import Candidate from "./candidate";
 import CareerDelete from "./careerDelete";
+
 class CareerItem extends Component {
   constructor(props) {
     super(props);

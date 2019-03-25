@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { fetchCareer } from "../../actions/careers";
 import { Loading } from "../../common";
 import CareerItem from "./careerItems";
-
+import CareerForm from "./careerForm";
 class Careers extends Component {
   constructor(props) {
     super(props);
@@ -29,6 +29,7 @@ class Careers extends Component {
             <CareerItem key={i} career={item} />
           ))}
         </div>
+        <CareerForm />
       </div>
     );
   }
