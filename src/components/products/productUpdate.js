@@ -27,7 +27,7 @@ class ProductUpdate extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    //console.log(this.state);
+
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: true });
       let updateItems = {};
@@ -40,14 +40,11 @@ class ProductUpdate extends Component {
       if (this.props.product.description !== this.state.description) {
         updateItems.description = this.state.description;
       }
-      // console.log("updateItems: ", updateItems);
-      if (Object.keys(updateItems).length > 0) {
-        //  console.log("submit");
 
+      if (Object.keys(updateItems).length > 0) {
         axios
           .patch(this.url, updateItems)
           .then(response => {
-            // console.log(response);
             this.props.updateFinish();
           })
           .catch(error =>
@@ -65,7 +62,6 @@ class ProductUpdate extends Component {
   };
 
   render() {
-    console.log(this.props);
     const { name, description, errors, isLoading } = this.state;
 
     return (

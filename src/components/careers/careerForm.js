@@ -3,32 +3,30 @@ import axios from "axios";
 import {
   TextFieldGroup,
   TextAreaGroup,
-  productValidation,
+  careerValidation,
   Modal
 } from "../../common";
 import { ERROR } from "../../../settings";
 import { ROOT } from "../../actions/types";
 
-class ProductForm extends Component {
+class CareerForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      type: "",
+      title: "",
       description: "",
       images: [],
       errors: {},
       isLoading: false,
-      imageUploading: false,
       showModal: false,
       modalType: "",
       modalMessage: ""
     };
-    this.url = `${ROOT}product`;
+    this.url = `${ROOT}career`;
   }
 
   isValid = () => {
-    const { errors, isValid } = productValidation(this.state);
+    const { errors, isValid } = careerValidation(this.state);
 
     if (!isValid) {
       this.setState({ errors });
@@ -43,8 +41,7 @@ class ProductForm extends Component {
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: true });
       let bodyFormData = new FormData();
-      bodyFormData.set("name", this.state.name);
-      bodyFormData.set("type", this.state.type);
+      bodyFormData.set("title", this.state.title);
       bodyFormData.set("description", this.state.description);
       this.state.images.forEach(file => {
         bodyFormData.append("images", file);
@@ -54,8 +51,7 @@ class ProductForm extends Component {
         .then(response => {
           this.setState({
             isLoading: false,
-            name: "",
-            type: "",
+            title: "",
             description: "",
             images: []
           });
@@ -93,14 +89,7 @@ class ProductForm extends Component {
     });
   };
   render() {
-    const {
-      name,
-      description,
-      images,
-      errors,
-      isLoading,
-      imageUploading
-    } = this.state;
+    const { title, description, images, errors, isLoading } = this.state;
 
     const upLoadTxt =
       images.length > 0 ? `Total images: ${images.length}` : "Add images";
@@ -114,14 +103,14 @@ class ProductForm extends Component {
 
     return (
       <div className="card card-body text-dark">
-        <h5 className="text-center">Add Product</h5>
+        <h5 className="text-center">Add Career</h5>
         {errors.form && <div className="alert alert-danger">{errors.form}</div>}
         <br />
         <TextFieldGroup
-          field="name"
-          label="Product Name"
-          value={name}
-          error={errors.name}
+          field="title"
+          label="Title"
+          value={title}
+          error={errors.title}
           onChange={e => {
             this.onChange(e);
           }}
@@ -129,7 +118,7 @@ class ProductForm extends Component {
 
         <TextAreaGroup
           field="description"
-          label="Product Description"
+          label="Description"
           value={description}
           error={errors.description}
           onChange={e => this.onChange(e)}
@@ -154,7 +143,7 @@ class ProductForm extends Component {
             disabled={isLoading}
             onClick={this.onSubmit}
           >
-            <h6> Upload Product</h6>
+            <h6> Upload Career</h6>
           </button>
         </div>
         {modal}
@@ -163,4 +152,4 @@ class ProductForm extends Component {
   }
 }
 
-export default ProductForm;
+export default CareerForm;

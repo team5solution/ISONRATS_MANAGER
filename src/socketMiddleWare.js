@@ -5,6 +5,8 @@ import {
 } from "./actions/products";
 import { addNewMessage, deleteMessage } from "./actions/messages";
 import { addNewReview, deleteReview } from "./actions/reviews";
+import { addNewCareer, updateCareer, deleteCareer } from "./actions/careers";
+import { newTheme } from "./actions/theme";
 export const createSocketMiddleWare = socket => {
   let eventFlag = false;
   return store => next => action => {
@@ -30,6 +32,18 @@ export const createSocketMiddleWare = socket => {
       });
       socket.on("delete review", data => {
         next(deleteReview(data));
+      });
+      socket.on("new career", data => {
+        next(addNewCareer(data));
+      });
+      socket.on("update career", data => {
+        next(updateCareer(data));
+      });
+      socket.on("delete career", data => {
+        next(deleteCareer(data));
+      });
+      socket.on("new theme", data => {
+        next(newTheme(data));
       });
     }
     return next(action);

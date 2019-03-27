@@ -102,7 +102,6 @@ class ProductsItem extends Component {
                 onClick={this.enableDelete}
               >
                 <h6>
-                  {" "}
                   <i className="far fa-trash-alt" />
                 </h6>
               </button>
