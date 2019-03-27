@@ -6,7 +6,7 @@ import {
   productValidation,
   Modal
 } from "../../common";
-
+import { ERROR } from "../../../settings";
 import { ROOT } from "../../actions/types";
 
 class ProductForm extends Component {
@@ -25,7 +25,6 @@ class ProductForm extends Component {
       modalMessage: ""
     };
     this.url = `${ROOT}product`;
-    //console.log(this.url);
   }
 
   isValid = () => {
@@ -40,7 +39,7 @@ class ProductForm extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    //console.log(this.state);
+
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: true });
       let bodyFormData = new FormData();
@@ -53,7 +52,6 @@ class ProductForm extends Component {
       axios
         .post(this.url, bodyFormData)
         .then(response => {
-          console.log(response);
           this.setState({
             isLoading: false,
             name: "",
@@ -78,13 +76,13 @@ class ProductForm extends Component {
     const files = Array.from(e.target.files);
     const availableFiles = files.filter(file => file.size <= 1024 * 1024 * 5);
     const tooBigFiles = files.filter(file => file.size > 1024 * 1024 * 5);
-    console.log("too big files: ", tooBigFiles);
+
     const showModal = tooBigFiles.length > 0 ? true : false;
     this.setState({
       images: availableFiles,
       showModal: showModal,
       modalMessage: "File size could not greater than 5 MB",
-      modalType: "error"
+      modalType: ERROR
     });
   };
   closeModal = () => {
@@ -95,7 +93,6 @@ class ProductForm extends Component {
     });
   };
   render() {
-    //console.log(this.state);
     const {
       name,
       description,
@@ -104,7 +101,7 @@ class ProductForm extends Component {
       isLoading,
       imageUploading
     } = this.state;
-    //console.log("images: ", images);
+
     const upLoadTxt =
       images.length > 0 ? `Total images: ${images.length}` : "Add images";
     const modal = this.state.showModal ? (
@@ -114,7 +111,7 @@ class ProductForm extends Component {
         closeModal={this.closeModal}
       />
     ) : null;
-    //console.log(modal);
+
     return (
       <div className="card card-body text-dark">
         <h5 className="text-center">Add Product</h5>

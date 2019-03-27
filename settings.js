@@ -3,4 +3,8 @@ import socketIOClient from "socket.io-client";
 export const SERVER_URL = "http://localhost:3000/";
 //export const CLIENT_URL = " https://fast-forest-66628.herokuapp.com/";
 export const CLIENT_URL = "http://localhost:8000/";
+export const SUCCESS = "SUCCESS";
+export const ERROR = "ERROR";
+export const WARNING = "WARNING";
+export const DEFAULT = "DEFAULT";
 export const socket = socketIOClient("http://localhost:3000");
