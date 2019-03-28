@@ -38,7 +38,7 @@ class ProductsItem extends Component {
     });
   };
   render() {
-    const { _id, name, description, images } = this.props.item;
+    const { _id, name, type, description, images } = this.props.item;
     let info;
     const productImages = images.map((image, index) => {
       const key = `productImage-${index}`;
@@ -81,6 +81,10 @@ class ProductsItem extends Component {
               <p>
                 <label>Name: &nbsp; </label>
                 {name}
+              </p>
+              <p>
+                <label>Type: &nbsp; </label>
+                {type}
               </p>
               <p>
                 <label>Description: &nbsp; </label>

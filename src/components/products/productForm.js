@@ -14,7 +14,7 @@ class ProductForm extends Component {
     super(props);
     this.state = {
       name: "",
-      type: "",
+      type: "service",
       description: "",
       images: [],
       errors: {},
@@ -55,7 +55,7 @@ class ProductForm extends Component {
           this.setState({
             isLoading: false,
             name: "",
-            type: "",
+            type: "service",
             description: "",
             images: []
           });
@@ -71,6 +71,11 @@ class ProductForm extends Component {
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
+  };
+  selectType = e => {
+    this.setState({
+      type: e.target.value
+    });
   };
   imgOnChange = e => {
     const files = Array.from(e.target.files);
@@ -95,6 +100,7 @@ class ProductForm extends Component {
   render() {
     const {
       name,
+      type,
       description,
       images,
       errors,
@@ -126,7 +132,16 @@ class ProductForm extends Component {
             this.onChange(e);
           }}
         />
+        <div className="form-group">
+          <label>Type</label>
 
+          <br />
+          <select className="text-dark" onChange={this.selectType} value={type}>
+            <option value="service">Service</option>
+            <option value="product">Product</option>
+            <option value="solution">Solution</option>
+          </select>
+        </div>
         <TextAreaGroup
           field="description"
           label="Product Description"
