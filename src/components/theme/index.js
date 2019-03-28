@@ -62,6 +62,7 @@ class Theme extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (!isEmpty(nextProps.theme.themeSetting)) {
+      //console.log("next props: ", nextProps);
       const { isFetching, themeSetting } = nextProps.theme;
       const selectedPresetIndex = themeSetting.selectedPresetIndex;
 

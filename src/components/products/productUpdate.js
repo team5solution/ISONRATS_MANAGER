@@ -8,6 +8,7 @@ class ProductUpdate extends Component {
     super(props);
     this.state = {
       name: this.props.product.name,
+      type: this.props.product.type,
       description: this.props.product.description,
       errors: {},
       isLoading: false
@@ -24,7 +25,11 @@ class ProductUpdate extends Component {
 
     return isValid;
   };
-
+  selectType = e => {
+    this.setState({
+      type: e.target.value
+    });
+  };
   onSubmit = e => {
     e.preventDefault();
 
@@ -62,7 +67,7 @@ class ProductUpdate extends Component {
   };
 
   render() {
-    const { name, description, errors, isLoading } = this.state;
+    const { name, type, description, errors, isLoading } = this.state;
 
     return (
       <div className="card-body text-dark">
@@ -77,7 +82,16 @@ class ProductUpdate extends Component {
             this.onChange(e);
           }}
         />
+        <div className="form-group">
+          <label>Type</label>
 
+          <br />
+          <select className="text-dark" onChange={this.selectType} value={type}>
+            <option value="service">Service</option>
+            <option value="product">Product</option>
+            <option value="solution">Solution</option>
+          </select>
+        </div>
         <TextAreaGroup
           field="description"
           label="Product Description"
