@@ -24,6 +24,9 @@ export const REQUEST_REVIEW = "REQUEST_REVIEW";
 export const RECEIVE_REVIEW = "RECEIVE_REVIEW";
 export const NEW_REVIEW = "NEW_REVIEW";
 export const DELETE_REVIEW = "DELETE_REVIEW";
+export const SEND_REVIEW = "SEND_REVIEW";
+export const REVIEW_SENT = "REVIEW_SENT";
+export const SEND_REVIEW_ERROR = "SEND_REVIEW_ERROR";
 
 /* career */
 export const REQUEST_CAREER = "REQUEST_CAREER";

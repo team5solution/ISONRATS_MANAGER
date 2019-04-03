@@ -62,7 +62,6 @@ class Theme extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (!isEmpty(nextProps.theme.themeSetting)) {
-      //console.log("next props: ", nextProps);
       const { isFetching, themeSetting } = nextProps.theme;
       const selectedPresetIndex = themeSetting.selectedPresetIndex;
 
@@ -74,6 +73,8 @@ class Theme extends Component {
     }
   }
   render() {
+    //  console.log(this.props);
+    //console.log(this.state);
     const { isFetching, themeSetting } = this.props.theme;
     const modal = this.state.showModal ? (
       <Modal
@@ -142,6 +143,19 @@ class Theme extends Component {
               />
               <label className="theme-value">
                 {this.state.selectedPreset.button}
+              </label>
+            </p>
+            <p>
+              <label className="theme-item">Button Font:</label>
+              &nbsp; &nbsp; &nbsp;
+              <span
+                className="color-pad"
+                style={{
+                  backgroundColor: this.state.selectedPreset.buttonFont
+                }}
+              />
+              <label className="theme-value">
+                {this.state.selectedPreset.buttonFont}
               </label>
             </p>
           </div>
